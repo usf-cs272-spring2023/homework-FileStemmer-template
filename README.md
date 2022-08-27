@@ -1,4 +1,4 @@
-HomeworkName
+WordCleaner
 =================================================
 
 ![Points](../../blob/badges/points.svg)
