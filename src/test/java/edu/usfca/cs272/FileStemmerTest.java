@@ -20,12 +20,13 @@ import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.MethodName;
+import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.TagFilter;
@@ -41,7 +42,7 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
  * @author CS 272 Software Development (University of San Francisco)
  * @version Spring 2023
  */
-@TestMethodOrder(MethodName.class)
+@TestClassOrder(ClassOrderer.ClassName.class)
 public class FileStemmerTest {
 	/** Path to the test resources. */
 	public static final Path BASE_PATH = Path.of("src", "test", "resources");
