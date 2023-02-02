@@ -34,23 +34,23 @@ import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 
 /**
- * Tests of the {@link WordCleaner} class.
+ * Tests of the {@link FileStemmer} class.
  *
- * @see WordCleaner
+ * @see FileStemmer
  *
  * @author CS 272 Software Development (University of San Francisco)
- * @version Fall 2022
+ * @version Spring 2023
  */
 @TestMethodOrder(MethodName.class)
-public class WordCleanerTest {
+public class FileStemmerTest {
 	/** Path to the test resources. */
 	public static final Path BASE_PATH = Path.of("src", "test", "resources");
 
 	/**
 	 * Collection of tests.
 	 *
-	 * @see WordCleaner#listStems(String)
-	 * @see WordCleaner#listStems(String, opennlp.tools.stemmer.Stemmer)
+	 * @see FileStemmer#listStems(String)
+	 * @see FileStemmer#listStems(String, opennlp.tools.stemmer.Stemmer)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
@@ -63,9 +63,8 @@ public class WordCleanerTest {
 		 */
 		public void test(String line, String[] output) {
 			List<String> expected = Arrays.stream(output).toList();
-			List<String> actual = WordCleaner.listStems(line);
-			assertEqualsJoined(expected, actual,
-					"Lists do not match; use compare feature in Eclipse for details.");
+			List<String> actual = FileStemmer.listStems(line);
+			assertEqualsJoined(expected, actual, "Lists do not match; use compare feature in Eclipse for details.");
 		}
 
 		// Test cases from: http://snowballstem.org/algorithms/english/stemmer.html
@@ -106,25 +105,18 @@ public class WordCleanerTest {
 		@Test
 		@Order(4)
 		public void testGroupOne() {
-			String[] input = {
-					"consign", "consigned", "consigning", "consignment", "consist",
-					"consisted", "consistency", "consistent", "consistently",
-					"consisting", "consists", "consolation", "consolations",
-					"consolatory", "console", "consoled", "consoles", "consolidate",
-					"consolidated", "consolidating", "consoling", "consolingly",
-					"consols", "consonant", "consort", "consorted", "consorting",
-					"conspicuous", "conspicuously", "conspiracy", "conspirator",
-					"conspirators", "conspire", "conspired", "conspiring", "constable",
-					"constables", "constance", "constancy", "constant" };
+			String[] input = { "consign", "consigned", "consigning", "consignment", "consist", "consisted", "consistency",
+					"consistent", "consistently", "consisting", "consists", "consolation", "consolations", "consolatory",
+					"console", "consoled", "consoles", "consolidate", "consolidated", "consolidating", "consoling", "consolingly",
+					"consols", "consonant", "consort", "consorted", "consorting", "conspicuous", "conspicuously", "conspiracy",
+					"conspirator", "conspirators", "conspire", "conspired", "conspiring", "constable", "constables", "constance",
+					"constancy", "constant" };
 
-			String[] output = {
-					"consign", "consign", "consign", "consign", "consist", "consist",
-					"consist", "consist", "consist", "consist", "consist", "consol",
-					"consol", "consolatori", "consol", "consol", "consol", "consolid",
-					"consolid", "consolid", "consol", "consol", "consol", "conson",
-					"consort", "consort", "consort", "conspicu", "conspicu", "conspiraci",
-					"conspir", "conspir", "conspir", "conspir", "conspir", "constabl",
-					"constabl", "constanc", "constanc", "constant" };
+			String[] output = { "consign", "consign", "consign", "consign", "consist", "consist", "consist", "consist",
+					"consist", "consist", "consist", "consol", "consol", "consolatori", "consol", "consol", "consol", "consolid",
+					"consolid", "consolid", "consol", "consol", "consol", "conson", "consort", "consort", "consort", "conspicu",
+					"conspicu", "conspiraci", "conspir", "conspir", "conspir", "conspir", "conspir", "constabl", "constabl",
+					"constanc", "constanc", "constant" };
 
 			String line = String.join(", ", input);
 			test(line, output);
@@ -136,21 +128,15 @@ public class WordCleanerTest {
 		@Test
 		@Order(5)
 		public void testGroupTwo() {
-			String[] input = {
-					"KNACK", "KNACKERIES", "KNACKS", "KNAG", "KNAVE", "KNAVES", "KNAVISH",
-					"KNEADED", "KNEADING", "KNEE", "KNEEL", "KNEELED", "KNEELING",
-					"KNEELS", "KNEES", "KNELL", "KNELT", "KNEW", "KNICK", "KNIF", "KNIFE",
-					"KNIGHT", "KNIGHTLY", "KNIGHTS", "KNIT", "KNITS", "KNITTED",
-					"KNITTING", "KNIVES", "KNOB", "KNOBS", "KNOCK", "KNOCKED", "KNOCKER",
-					"KNOCKERS", "KNOCKING", "KNOCKS", "KNOPP", "KNOT", "KNOTS" };
+			String[] input = { "KNACK", "KNACKERIES", "KNACKS", "KNAG", "KNAVE", "KNAVES", "KNAVISH", "KNEADED", "KNEADING",
+					"KNEE", "KNEEL", "KNEELED", "KNEELING", "KNEELS", "KNEES", "KNELL", "KNELT", "KNEW", "KNICK", "KNIF", "KNIFE",
+					"KNIGHT", "KNIGHTLY", "KNIGHTS", "KNIT", "KNITS", "KNITTED", "KNITTING", "KNIVES", "KNOB", "KNOBS", "KNOCK",
+					"KNOCKED", "KNOCKER", "KNOCKERS", "KNOCKING", "KNOCKS", "KNOPP", "KNOT", "KNOTS" };
 
-			String[] output = {
-					"knack", "knackeri", "knack", "knag", "knave", "knave", "knavish",
-					"knead", "knead", "knee", "kneel", "kneel", "kneel", "kneel", "knee",
-					"knell", "knelt", "knew", "knick", "knif", "knife", "knight",
-					"knight", "knight", "knit", "knit", "knit", "knit", "knive", "knob",
-					"knob", "knock", "knock", "knocker", "knocker", "knock", "knock",
-					"knopp", "knot", "knot" };
+			String[] output = { "knack", "knackeri", "knack", "knag", "knave", "knave", "knavish", "knead", "knead", "knee",
+					"kneel", "kneel", "kneel", "kneel", "knee", "knell", "knelt", "knew", "knick", "knif", "knife", "knight",
+					"knight", "knight", "knit", "knit", "knit", "knit", "knive", "knob", "knob", "knock", "knock", "knocker",
+					"knocker", "knock", "knock", "knopp", "knot", "knot" };
 
 			String line = String.join(" **** ", input);
 			test(line, output);
@@ -160,8 +146,8 @@ public class WordCleanerTest {
 	/**
 	 * Collection of tests.
 	 *
-	 * @see WordCleaner#uniqueStems(String)
-	 * @see WordCleaner#uniqueStems(String, opennlp.tools.stemmer.Stemmer)
+	 * @see FileStemmer#uniqueStems(String)
+	 * @see FileStemmer#uniqueStems(String, opennlp.tools.stemmer.Stemmer)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
@@ -169,20 +155,16 @@ public class WordCleanerTest {
 		@Override
 		public void test(String line, String[] output) {
 			// converts to list for ordering purposes
-			List<String> expected = Arrays.stream(output)
-					.sorted()
-					.distinct()
-					.toList();
-			List<String> actual = WordCleaner.uniqueStems(line).stream().toList();
-			assertEqualsJoined(expected, actual,
-					"Sets do not match; use compare feature in Eclipse for details.");
+			List<String> expected = Arrays.stream(output).sorted().distinct().toList();
+			List<String> actual = FileStemmer.uniqueStems(line).stream().toList();
+			assertEqualsJoined(expected, actual, "Sets do not match; use compare feature in Eclipse for details.");
 		}
 	}
 
 	/**
 	 * Collection of tests.
 	 *
-	 * @see WordCleaner#listStems(Path)
+	 * @see FileStemmer#listStems(Path)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
@@ -196,9 +178,8 @@ public class WordCleanerTest {
 		 */
 		public void test(Path path, String[] output) throws IOException {
 			List<String> expected = Arrays.stream(output).toList();
-			List<String> actual = WordCleaner.listStems(path);
-			assertEqualsJoined(expected, actual,
-					"Lists do not match; use compare feature in Eclipse for details.");
+			List<String> actual = FileStemmer.listStems(path);
+			assertEqualsJoined(expected, actual, "Lists do not match; use compare feature in Eclipse for details.");
 		}
 
 		/**
@@ -210,13 +191,10 @@ public class WordCleanerTest {
 		@Order(1)
 		public void testCleaner() throws IOException {
 			Path path = BASE_PATH.resolve("cleaner.txt");
-			String[] output = {
-					"okapi", "okapi", "mongoos", "lori", "lori", "lori", "axolotl",
-					"narwhal", "platypus", "echidna", "tarsier", "antelop", "antelop",
-					"antelop", "antelop", "antelop", "antelop", "antelop", "antelop",
-					"antelop", "antelop", "observa", "observ", "observacion", "observ",
-					"observ", "observ", "observ", "observ", "observ", "observ", "observ",
-					"observ", "observ" };
+			String[] output = { "okapi", "okapi", "mongoos", "lori", "lori", "lori", "axolotl", "narwhal", "platypus",
+					"echidna", "tarsier", "antelop", "antelop", "antelop", "antelop", "antelop", "antelop", "antelop", "antelop",
+					"antelop", "antelop", "observa", "observ", "observacion", "observ", "observ", "observ", "observ", "observ",
+					"observ", "observ", "observ", "observ", "observ" };
 			test(path, output);
 		}
 
@@ -230,7 +208,7 @@ public class WordCleanerTest {
 		public void testStems() throws IOException {
 			Path input = BASE_PATH.resolve("stem-in.txt");
 			Path output = BASE_PATH.resolve("stem-out.txt");
-			String[] expected = WordCleaner.parse(Files.readString(output, UTF_8));
+			String[] expected = FileStemmer.parse(Files.readString(output, UTF_8));
 			test(input, expected);
 		}
 	}
@@ -238,7 +216,7 @@ public class WordCleanerTest {
 	/**
 	 * Collection of tests.
 	 *
-	 * @see WordCleaner#uniqueStems(Path)
+	 * @see FileStemmer#uniqueStems(Path)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
@@ -246,20 +224,16 @@ public class WordCleanerTest {
 		@Override
 		public void test(Path path, String[] output) throws IOException {
 			// converts to list for ordering purposes
-			List<String> expected = Arrays.stream(output)
-					.sorted()
-					.distinct()
-					.toList();
-			List<String> actual = WordCleaner.uniqueStems(path).stream().toList();
-			assertEqualsJoined(expected, actual,
-					"Sets do not match; use compare feature in Eclipse for details.");
+			List<String> expected = Arrays.stream(output).sorted().distinct().toList();
+			List<String> actual = FileStemmer.uniqueStems(path).stream().toList();
+			assertEqualsJoined(expected, actual, "Sets do not match; use compare feature in Eclipse for details.");
 		}
 	}
 
 	/**
 	 * Collection of tests.
 	 *
-	 * @see WordCleaner#listUniqueStems(Path)
+	 * @see FileStemmer#listUniqueStems(Path)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
@@ -270,11 +244,8 @@ public class WordCleanerTest {
 		 * @param expected the expected result
 		 * @param actual the actual result
 		 */
-		public void test(List<? extends Collection<String>> expected,
-				ArrayList<TreeSet<String>> actual) {
-			List<String> expectedJoined = expected.stream()
-					.map(Collection::toString)
-					.toList();
+		public void test(List<? extends Collection<String>> expected, ArrayList<TreeSet<String>> actual) {
+			List<String> expectedJoined = expected.stream().map(Collection::toString).toList();
 			List<String> actualJoined = actual.stream().map(Set::toString).toList();
 			assertEqualsJoined(expectedJoined, actualJoined,
 					"Lines do not match; use compare feature in Eclipse for details.");
@@ -291,11 +262,10 @@ public class WordCleanerTest {
 			Path input = BASE_PATH.resolve("cleaner.txt");
 
 			List<List<String>> expected = List.of(List.of("lori", "mongoos", "okapi"),
-					List.of("axolotl", "echidna", "narwhal", "platypus", "tarsier"),
-					List.of(), List.of("antelop"), List.of("antelop"), List.of(),
-					List.of("observ", "observa", "observacion"), List.of("observ"));
+					List.of("axolotl", "echidna", "narwhal", "platypus", "tarsier"), List.of(), List.of("antelop"),
+					List.of("antelop"), List.of(), List.of("observ", "observa", "observacion"), List.of("observ"));
 
-			ArrayList<TreeSet<String>> actual = WordCleaner.listUniqueStems(input);
+			ArrayList<TreeSet<String>> actual = FileStemmer.listUniqueStems(input);
 			test(expected, actual);
 		}
 	}
@@ -314,8 +284,7 @@ public class WordCleanerTest {
 			String regex = "(?is)\\bimport\\s+java.io.File\\s*;";
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(source);
-			Assertions.assertFalse(matcher.find(),
-					"Do not use the java.io.File class in your code!");
+			Assertions.assertFalse(matcher.find(), "Do not use the java.io.File class in your code!");
 		}
 
 		/**
@@ -326,8 +295,7 @@ public class WordCleanerTest {
 			String regex = "(?is)\\btry\\s*\\([^}]+\\)";
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(source);
-			Assertions.assertTrue(matcher.find(),
-					"Make sure you use try-with-resources in your code!");
+			Assertions.assertTrue(matcher.find(), "Make sure you use try-with-resources in your code!");
 		}
 
 		/**
@@ -335,10 +303,8 @@ public class WordCleanerTest {
 		 */
 		@Test
 		public void testThrowsNullExceptions() {
-			Assertions.assertThrows(NullPointerException.class, () -> {
-				Path nullPath = null;
-				WordCleaner.listStems(nullPath);
-			});
+			Assertions.assertThrows(NullPointerException.class,
+					() -> { Path nullPath = null; FileStemmer.listStems(nullPath); });
 		}
 
 		/**
@@ -346,10 +312,8 @@ public class WordCleanerTest {
 		 */
 		@Test
 		public void testThrowsDirectoryExceptions() {
-			Assertions.assertThrows(IOException.class, () -> {
-				Path nullPath = Path.of("src");
-				WordCleaner.listStems(nullPath);
-			});
+			Assertions.assertThrows(IOException.class,
+					() -> { Path nullPath = Path.of("src"); FileStemmer.listStems(nullPath); });
 		}
 
 		/**
@@ -359,19 +323,18 @@ public class WordCleanerTest {
 		public void testThrowsNoFileExceptions() {
 			Assertions.assertThrows(IOException.class, () -> {
 				Path nullPath = Path.of("nowhere");
-				WordCleaner.uniqueStems(nullPath);
+				FileStemmer.uniqueStems(nullPath);
 			});
 		}
 
 		/**
-		 * Causes this group of tests to fail if the other non-approach tests are
-		 * not yet passing.
+		 * Causes this group of tests to fail if the other non-approach tests are not
+		 * yet passing.
 		 */
 		@Test
 		public void testOthersPassing() {
 			var request = LauncherDiscoveryRequestBuilder.request()
-					.selectors(DiscoverySelectors.selectClass(WordCleanerTest.class))
-					.filters(TagFilter.excludeTags("approach"))
+					.selectors(DiscoverySelectors.selectClass(FileStemmerTest.class)).filters(TagFilter.excludeTags("approach"))
 					.build();
 
 			var launcher = LauncherFactory.create();
@@ -399,7 +362,7 @@ public class WordCleanerTest {
 		public void setup() throws IOException {
 			Path java = Path.of("src", "main", "java");
 			Path cs272 = Path.of("edu", "usfca", "cs272");
-			String file = WordCleaner.class.getSimpleName() + ".java";
+			String file = FileStemmer.class.getSimpleName() + ".java";
 
 			Path path = java.resolve(cs272).resolve(file);
 			source = Files.readString(path, UTF_8);
@@ -409,31 +372,31 @@ public class WordCleanerTest {
 	/**
 	 * Collection of tests.
 	 *
-	 * These tests should already pass, since the methods are given for you
-	 * already. They are not included in the homework grade.
+	 * These tests should already pass, since the methods are given for you already.
+	 * They are not included in the homework grade.
 	 *
-	 * @see WordCleaner#split(String)
-	 * @see WordCleaner#clean(String)
-	 * @see WordCleaner#parse(String)
+	 * @see FileStemmer#split(String)
+	 * @see FileStemmer#clean(String)
+	 * @see FileStemmer#parse(String)
 	 */
 	@Nested
 	@TestMethodOrder(OrderAnnotation.class)
 	public class G_SplitCleanParseTests {
 		/**
-		 * Tests the {@link WordCleaner#clean(String)} method.
+		 * Tests the {@link FileStemmer#clean(String)} method.
 		 */
 		@Nested
 		@TestMethodOrder(OrderAnnotation.class)
 		public class CleanTestCases {
 			/**
-			 * Calls {@link WordCleaner#clean(String)} on the supplied text, and makes
-			 * sure it matches the expected text.
+			 * Calls {@link FileStemmer#clean(String)} on the supplied text, and makes sure
+			 * it matches the expected text.
 			 *
 			 * @param text the text to clean
 			 * @param expected the cleaned output
 			 */
 			public void test(String text, String expected) {
-				String actual = WordCleaner.clean(text);
+				String actual = FileStemmer.clean(text);
 				assertEquals(expected, actual);
 			}
 
@@ -529,20 +492,20 @@ public class WordCleanerTest {
 		}
 
 		/**
-		 * Tests the {@link WordCleaner#parse(String)} method.
+		 * Tests the {@link FileStemmer#parse(String)} method.
 		 */
 		@Nested
 		@TestMethodOrder(OrderAnnotation.class)
 		public class ParseTextTests {
 			/**
-			 * Calls {@link WordCleaner#parse(String)} on the supplied text, and makes
-			 * sure it matches the expected array.
+			 * Calls {@link FileStemmer#parse(String)} on the supplied text, and makes sure
+			 * it matches the expected array.
 			 *
 			 * @param text the text to parse
 			 */
 			public void test(String text) {
 				String[] expected = new String[] { "hello", "world" };
-				assertArrayEquals(expected, WordCleaner.parse(text));
+				assertArrayEquals(expected, FileStemmer.parse(text));
 			}
 
 			/**
@@ -619,20 +582,20 @@ public class WordCleanerTest {
 		}
 
 		/**
-		 * Tests the {@link WordCleaner#parse(String)} method.
+		 * Tests the {@link FileStemmer#parse(String)} method.
 		 */
 		@Nested
 		@TestMethodOrder(OrderAnnotation.class)
 		public class ParseTextEmptyTests {
 			/**
-			 * Calls {@link WordCleaner#parse(String)} on the supplied text, and makes
-			 * sure it matches an empty array.
+			 * Calls {@link FileStemmer#parse(String)} on the supplied text, and makes sure
+			 * it matches an empty array.
 			 *
 			 * @param text the text to parse
 			 */
 			public void test(String text) {
 				String[] expected = new String[0];
-				assertArrayEquals(expected, WordCleaner.parse(text));
+				assertArrayEquals(expected, FileStemmer.parse(text));
 			}
 
 			/**
@@ -681,8 +644,7 @@ public class WordCleanerTest {
 	 * @param actual the actual result
 	 * @param debug the debug string to display
 	 */
-	public static void assertEqualsJoined(Collection<String> expected,
-			Collection<String> actual, String debug) {
+	public static void assertEqualsJoined(Collection<String> expected, Collection<String> actual, String debug) {
 		String expectedJoined = String.join("\n", expected);
 		String actualJoined = String.join("\n", actual);
 		assertEquals(expectedJoined, actualJoined, debug + "\n");

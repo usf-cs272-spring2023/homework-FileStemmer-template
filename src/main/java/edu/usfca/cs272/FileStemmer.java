@@ -23,20 +23,19 @@ import opennlp.tools.stemmer.snowball.SnowballStemmer.ALGORITHM;
  * collections of processed words.
  *
  * @author CS 272 Software Development (University of San Francisco)
- * @version Fall 2022
+ * @version Spring 2023
  */
-public class WordCleaner {
+public class FileStemmer {
 	/** Regular expression that matches any whitespace. **/
 	public static final Pattern SPLIT_REGEX = Pattern.compile("(?U)\\p{Space}+");
 
 	/** Regular expression that matches non-alphabetic characters. **/
-	public static final Pattern CLEAN_REGEX = Pattern
-			.compile("(?U)[^\\p{Alpha}\\p{Space}]+");
+	public static final Pattern CLEAN_REGEX = Pattern.compile("(?U)[^\\p{Alpha}\\p{Space}]+");
 
 	/**
 	 * Cleans the text by removing any non-alphabetic characters (e.g. non-letters
-	 * like digits, punctuation, symbols, and diacritical marks like the umlaut)
-	 * and converting the remaining characters to lowercase.
+	 * like digits, punctuation, symbols, and diacritical marks like the umlaut) and
+	 * converting the remaining characters to lowercase.
 	 *
 	 * @param text the text to clean
 	 * @return cleaned text
@@ -71,8 +70,8 @@ public class WordCleaner {
 	}
 
 	/**
-	 * Parses the line into cleaned and stemmed words and adds them to the
-	 * provided collection.
+	 * Parses the line into cleaned and stemmed words and adds them to the provided
+	 * collection.
 	 *
 	 * @param line the line of words to clean, split, and stem
 	 * @param stemmer the stemmer to use
@@ -188,13 +187,13 @@ public class WordCleaner {
 	}
 
 	/**
-	 * Reads a file line by line, parses each line into unique, sorted, cleaned,
-	 * and stemmed words using the default stemmer for English, and adds the set
-	 * of unique sorted stems to a list per line in the file.
+	 * Reads a file line by line, parses each line into unique, sorted, cleaned, and
+	 * stemmed words using the default stemmer for English, and adds the set of
+	 * unique sorted stems to a list per line in the file.
 	 *
 	 * @param input the input file to parse and stem
-	 * @return a list where each item is the sets of unique sorted stems parsed
-	 *   from a single line of the input file
+	 * @return a list where each item is the sets of unique sorted stems parsed from
+	 *   a single line of the input file
 	 * @throws IOException if unable to read or parse file
 	 *
 	 * @see SnowballStemmer
